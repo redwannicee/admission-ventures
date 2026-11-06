@@ -1,17 +1,18 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { BookOpenCheck, ClipboardCheck, FileDown, Facebook, Instagram, Layers, PlayCircle, ShieldCheck, Smartphone, Youtube } from "lucide-react";
+import { BookOpenCheck, ChevronLeft, ChevronRight, MapPin, Phone, ClipboardCheck, FileDown, Facebook, Layers, MessageCircle, Send, PlayCircle, ShieldCheck, Smartphone, Youtube } from "lucide-react";
 import { useAsync } from "@/hooks/useAsync";
 import { AsyncView, EmptyState } from "@/components/ui";
 import { CourseCard } from "@/features/courses/CourseCard";
 import { getPublicStats, listPublishedCourses } from "@/features/courses/api";
 import { site } from "@/app/siteConfig";
+import { faqs, heroSlides, team, videos, vision } from "@/app/content";
 
 const tracks = [
-  { label: "Arts", q: "arts", tone: "bg-amber-soft text-amber-deep" },
+  { label: "Arts (কলা বিভাগ)", q: "arts", tone: "bg-amber-soft text-amber-deep" },
   { label: "Science", q: "science", tone: "bg-brand-100 text-brand-800" },
-  { label: "Commerce", q: "commerce", tone: "bg-stone-100 text-stone-800" },
   { label: "Exam batches", q: "exam", tone: "bg-brand-50 text-brand-700" },
-  { label: "Recorded classes", q: "recorded", tone: "bg-amber-soft text-ink" },
+  { label: "Recorded classes", q: "course", tone: "bg-stone-100 text-stone-800" },
 ];
 
 const why = [
@@ -23,6 +24,34 @@ const why = [
   { icon: Smartphone, title: "Works on your phone", text: "Built for small screens first, so you can study anywhere." },
 ];
 
+
+function HeroSlider() {
+  const [i, setI] = useState(0);
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(() => setI((n) => (n + 1) % heroSlides.length), 5000);
+    return () => clearInterval(t);
+  }, [paused]);
+  const go = (d: number) => setI((n) => (n + d + heroSlides.length) % heroSlides.length);
+  return (
+    <section aria-roledescription="carousel" aria-label="Highlights" className="mx-auto max-w-6xl px-4 pt-6" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div className="relative overflow-hidden rounded-2xl bg-brand-100 shadow-card">
+        <div className="flex transition-transform duration-500" style={{ transform: `translateX(-${i * 100}%)` }}>
+          {heroSlides.map((s, n) => (
+            <img key={s.src} src={s.src} alt={s.title} loading={n === 0 ? "eager" : "lazy"} className="aspect-[16/7] w-full shrink-0 object-cover" aria-hidden={n !== i} />
+          ))}
+        </div>
+        <button className="btn-ghost btn-sm absolute left-2 top-1/2 -translate-y-1/2 !px-2" onClick={() => go(-1)} aria-label="Previous slide"><ChevronLeft className="h-4 w-4" /></button>
+        <button className="btn-ghost btn-sm absolute right-2 top-1/2 -translate-y-1/2 !px-2" onClick={() => go(1)} aria-label="Next slide"><ChevronRight className="h-4 w-4" /></button>
+        <div className="absolute inset-x-0 bottom-2 flex justify-center gap-1.5">
+          {heroSlides.map((s, n) => <button key={s.src} onClick={() => setI(n)} aria-label={`Slide ${n + 1}: ${s.title}`} aria-current={n === i} className={`h-2 rounded-full transition-all ${n === i ? "w-6 bg-amber" : "w-2 bg-white/80"}`} />)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const Heading = ({ title, sub }: { title: string; sub?: string }) => (
   <div className="mb-6"><h2 className="text-2xl sm:text-3xl">{title}</h2>{sub && <p className="mt-1 text-sm text-ink-mute">{sub}</p>}</div>
 );
@@ -31,19 +60,21 @@ export default function HomePage() {
   const courses = useAsync(listPublishedCourses, []);
   const stats = useAsync(getPublicStats, []);
   const social = [
-    { href: site.social.facebook, label: "Facebook", icon: Facebook },
+    { href: site.social.facebook, label: "Facebook page", icon: Facebook },
+    { href: site.social.facebookGroup, label: "Facebook group", icon: Facebook },
     { href: site.social.youtube, label: "YouTube", icon: Youtube },
-    { href: site.social.instagram, label: "Instagram", icon: Instagram },
-  ].filter((s) => s.href);
+    { href: site.social.telegram, label: "Telegram", icon: Send },
+    { href: site.social.whatsappChannel, label: "WhatsApp channel", icon: MessageCircle },
+  ];
 
   return (
     <>
       {/* 1. Hero */}
       <section className="bg-brand-900 text-white">
         <div className="mx-auto max-w-6xl px-4 py-14 text-center sm:py-20">
-          <p className="mx-auto mb-3 inline-block rounded-full bg-brand-800 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber">Admission preparation</p>
-          <h1 className="mx-auto max-w-3xl text-4xl leading-tight sm:text-5xl">Prepare for admission tests with a clear plan.</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-brand-100">Study from recorded classes, download the materials, and test yourself with timed exams that are scored fairly on the server.</p>
+          <p className="mx-auto mb-3 inline-block rounded-full bg-brand-800 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber">Premium Admissions Coaching 2026</p>
+          <h1 className="mx-auto max-w-3xl text-4xl leading-tight sm:text-5xl">Your Gateway to Excellence. Explore, Learn, and Succeed.</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-brand-100">Expert-guided programs, recorded classes, study materials and timed exams to help you secure your dream university seat.</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link to="/courses" className="btn-accent">Browse courses</Link>
             <Link to="/register" className="btn border border-brand-500 text-white hover:bg-brand-800">Create free account</Link>
@@ -61,10 +92,12 @@ export default function HomePage() {
         )}
       </section>
 
+      <HeroSlider />
+
       {/* 3. Exam / track tiles */}
       <section className="mx-auto max-w-6xl px-4 pt-12" aria-labelledby="tracks">
         <Heading title="Choose your track" sub="Jump straight to the batches that fit you." />
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {tracks.map((t) => (
             <li key={t.q}><Link to={`/courses?q=${t.q}`} className={`flex min-h-[88px] items-center justify-center rounded-2xl p-4 text-center font-display text-lg shadow-card transition hover:-translate-y-0.5 ${t.tone}`}>{t.label}</Link></li>
           ))}
@@ -109,15 +142,61 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. Community (only when real links are configured) */}
-      {social.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 pt-16 text-center">
-          <Heading title="Join our community" sub="Updates, tips and announcements." />
-          <div className="flex flex-wrap justify-center gap-3">
-            {social.map(({ href, label, icon: I }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="btn-ghost"><I className="h-4 w-4" aria-hidden />{label}</a>)}
-          </div>
-        </section>
-      )}
+      {/* Videos */}
+      <section className="mx-auto max-w-6xl px-4 pt-16" aria-labelledby="videos">
+        <Heading title="Watch and get to know us" />
+        <div className="grid gap-4 md:grid-cols-3">
+          {videos.map((id, n) => (
+            <div key={id} className="overflow-hidden rounded-2xl bg-ink shadow-card">
+              <iframe title={`Admission Ventures video ${n + 1}`} src={`https://www.youtube-nocookie.com/embed/${id}?rel=0`} loading="lazy" className="aspect-video w-full" allow="encrypted-media; picture-in-picture; fullscreen" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Vision */}
+      <section className="mx-auto max-w-3xl px-4 pt-16 text-center">
+        <Heading title="Our vision" />
+        <p className="font-display text-xl leading-relaxed text-ink-soft">{vision}</p>
+      </section>
+
+      {/* Team preview */}
+      <section className="mx-auto max-w-6xl px-4 pt-16" aria-labelledby="team">
+        <div className="flex items-end justify-between"><Heading title="Meet the team" sub="Mentors from BUET, Dhaka University, Chittagong University and leading medical and agricultural institutions." /><Link to="/team" className="mb-6 shrink-0 text-sm font-semibold text-brand-700">See all</Link></div>
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {team.slice(0, 8).map((m) => (
+            <li key={m.name} className="card overflow-hidden text-center">
+              <img src={m.photo} alt={m.name} loading="lazy" className="aspect-square w-full object-cover" />
+              <div className="p-3"><p className="font-semibold leading-tight">{m.name}</p><p className="mt-0.5 text-xs text-ink-mute">{m.role}</p>{m.edu && <p className="text-xs text-brand-700">{m.edu}</p>}</div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* FAQ */}
+      <section className="mx-auto max-w-3xl px-4 pt-16" aria-labelledby="faq">
+        <Heading title="Frequently asked questions" />
+        <div className="space-y-2">
+          {faqs.map((f) => (
+            <details key={f.q} className="card group px-4 py-3">
+              <summary className="cursor-pointer list-none font-medium marker:hidden">{f.q}</summary>
+              <p className="mt-2 text-sm text-ink-soft">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* Community + contact */}
+      <section className="mx-auto max-w-6xl px-4 pt-16 text-center">
+        <Heading title="Join our community" sub="Updates, tips and announcements." />
+        <div className="flex flex-wrap justify-center gap-3">
+          {social.map(({ href, label, icon: I }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="btn-ghost"><I className="h-4 w-4" aria-hidden />{label}</a>)}
+        </div>
+        <ul className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-ink-soft">
+          <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-brand-600" aria-hidden />{site.phones.map((p, i) => <span key={p}>{i > 0 && " · "}<a href={`tel:${p}`}>{p}</a></span>)}</li>
+          <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-brand-600" aria-hidden />{site.office}</li>
+        </ul>
+      </section>
 
       {/* 8. Final call to action */}
       <section className="mx-auto mt-16 max-w-6xl px-4">

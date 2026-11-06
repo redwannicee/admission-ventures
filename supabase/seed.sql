@@ -7,9 +7,9 @@
 
 insert into public.courses (slug, title, description, price_amount, published) values
   ('second-timer-arts-exam-batch', 'Second Timer Exam Batch (Arts)',
-   'SAMPLE: daily, weekly and monthly exams with paper finals for Arts admission.', 490, true),
-  ('science-recorded-batch', 'Science Recorded Batch',
-   'SAMPLE: recorded lectures and exams for Science admission.', 790, true),
+   'Full-syllabus exams, daily, weekly and monthly exams, question-bank exams, paper and subject finals, a final model test, and 200+ extra topic-based tests.', 490, true),
+  ('science-recorded-batch', 'Second Timer Course (Science)',
+   'Full-syllabus recorded Science classes, daily, weekly and monthly exams, exercise exams, question-bank exams, paper and subject finals, and a final model test.', 510, true),
   ('free-orientation', 'Free Orientation',
    'SAMPLE: a free course that shows the zero-price enrollment path.', 0, true),
   ('draft-course-hidden', 'Draft Course (unpublished)',

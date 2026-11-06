@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
-import { Mail, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { team, vision } from "@/app/content";
 import { site } from "@/app/siteConfig";
 
 const Wrap = ({ title, children }: { title: string; children: ReactNode }) => (
@@ -10,6 +11,7 @@ const H = ({ children }: { children: ReactNode }) => <h2 className="pt-4 text-xl
 export function AboutPage() {
   return (
     <Wrap title="About us">
+      <p>{vision}</p>
       <p>{site.name} helps students prepare for competitive admission tests. We combine recorded classes, downloadable study material and timed online exams so you can learn, practise and measure progress in one place.</p>
       <H>How it works</H>
       <p>Create an account, pick a course and complete the payment through our secure gateway. Your access opens automatically once the payment is verified. Exams are timed and scored on our servers, so results are fair and cannot be altered from the browser.</p>
@@ -22,8 +24,9 @@ export function ContactPage() {
       <p>Questions about courses, payments or your account? Reach us here.</p>
       <ul className="card space-y-3 p-5 text-ink">
         <li className="flex items-center gap-3"><Mail className="h-5 w-5 text-brand-600" aria-hidden /><a className="font-medium underline" href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a></li>
-        <li className="flex items-center gap-3"><Phone className="h-5 w-5 text-brand-600" aria-hidden />{site.supportPhone}</li>
-        <li className="text-sm text-ink-mute">Support hours: {site.supportHours}</li>
+        {site.phones.map((p) => <li key={p} className="flex items-center gap-3"><Phone className="h-5 w-5 text-brand-600" aria-hidden /><a className="font-medium" href={`tel:${p}`}>{p}</a></li>)}
+        <li className="flex items-center gap-3"><MapPin className="h-5 w-5 text-brand-600" aria-hidden />{site.office}</li>
+        <li><a className="btn-primary btn-sm" href={site.whatsapp} target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></li>
       </ul>
       <p className="text-sm">For payment problems, include your order reference (starts with “AV-”) so we can help faster.</p>
     </Wrap>
@@ -51,4 +54,21 @@ export function PrivacyPage() {
 }
 export function NotFoundPage() {
   return <Wrap title="Page not found"><p>The page you are looking for does not exist.</p><a className="btn-primary" href="/">Go home</a></Wrap>;
+}
+
+export function TeamPage() {
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-12">
+      <h1 className="mb-2 text-3xl sm:text-4xl">Our team</h1>
+      <p className="mb-8 text-ink-mute">The founders and mentors behind {site.name}.</p>
+      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {team.map((m) => (
+          <li key={m.name} className="card overflow-hidden text-center">
+            <img src={m.photo} alt={m.name} loading="lazy" className="aspect-square w-full object-cover" />
+            <div className="p-3"><p className="font-semibold leading-tight">{m.name}</p><p className="mt-0.5 text-xs text-ink-mute">{m.role}</p>{m.edu && <p className="text-xs text-brand-700">{m.edu}</p>}</div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

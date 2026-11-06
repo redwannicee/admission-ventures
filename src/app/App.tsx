@@ -11,7 +11,7 @@ import { RequireAdmin, RequireAuth } from "./guards";
 import HomePage from "@/pages/public/HomePage";
 import CatalogPage from "@/pages/public/CatalogPage";
 import CourseDetailPage from "@/pages/public/CourseDetailPage";
-import { AboutPage, ContactPage, NotFoundPage, PrivacyPage, TermsPage } from "@/pages/public/StaticPages";
+import { AboutPage, ContactPage, NotFoundPage, PrivacyPage, TeamPage, TermsPage } from "@/pages/public/StaticPages";
 import { ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage } from "@/pages/auth/AuthPages";
 
 // Admin and exam screens are split out so students never download admin code.
@@ -78,6 +78,7 @@ export default function App() {
                 <Route path="courses/:slug" element={<CourseDetailPage />} />
                 <Route path="about" element={<AboutPage />} />
                 <Route path="contact" element={<ContactPage />} />
+                <Route path="team" element={<TeamPage />} />
                 <Route path="terms" element={<TermsPage />} />
                 <Route path="privacy" element={<PrivacyPage />} />
                 <Route path="login" element={<LoginPage />} />

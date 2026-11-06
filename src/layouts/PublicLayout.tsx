@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { useAuth } from "@/app/AuthProvider";
 import { site } from "@/app/siteConfig";
 
-const links = [["/courses", "Courses"], ["/about", "About"], ["/contact", "Contact"]] as const;
+const links = [["/courses", "Courses"], ["/team", "Team"], ["/about", "About"], ["/contact", "Contact"]] as const;
 
 export function Logo({ light = false }: { light?: boolean }) {
   return (
@@ -47,7 +47,7 @@ export function PublicLayout() {
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
           <div><Logo light /><p className="mt-3 text-sm text-brand-200">{site.tagline}</p></div>
           <div><p className="mb-2 text-sm font-semibold text-white">Study</p><ul className="space-y-1 text-sm"><li><Link to="/courses">All courses</Link></li><li><Link to="/exams">Exams</Link></li><li><Link to="/dashboard">My learning</Link></li></ul></div>
-          <div><p className="mb-2 text-sm font-semibold text-white">Company</p><ul className="space-y-1 text-sm"><li><Link to="/about">About us</Link></li><li><Link to="/contact">Contact</Link></li></ul></div>
+          <div><p className="mb-2 text-sm font-semibold text-white">Company</p><ul className="space-y-1 text-sm"><li><Link to="/about">About us</Link></li><li><Link to="/team">Team</Link></li><li><Link to="/contact">Contact</Link></li></ul></div>
           <div><p className="mb-2 text-sm font-semibold text-white">Policies</p><ul className="space-y-1 text-sm"><li><Link to="/terms">Terms of use</Link></li><li><Link to="/privacy">Privacy policy</Link></li></ul><p className="mt-4 text-xs text-brand-200">Payments are processed by a secure hosted gateway.</p></div>
         </div>
         <p className="border-t border-brand-800 py-4 text-center text-xs text-brand-200">© {new Date().getFullYear()} {site.name}. All rights reserved.</p>

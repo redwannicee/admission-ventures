@@ -223,7 +223,7 @@ select public.t_err('Spec 6.5 course with orders cannot be deleted', format('del
 select public.create_order(:'ub', array[:'sci']::uuid[], 'order-key-B-0001') as o2 \gset
 select (:'o2'::jsonb ->> 'order_id') as ord2 \gset
 select (public.create_payment_record(:'ub', :'ord2', 'sslcommerz') ->> 'tran_id') as tran2 \gset
-select public.process_payment_verification('sslcommerz', :'tran2', 'evt-b-fail', 'IPN', 'bf', 'failed', 790, 'BDT');
+select public.process_payment_verification('sslcommerz', :'tran2', 'evt-b-fail', 'IPN', 'bf', 'failed', 510, 'BDT');
 select public.t_eq('Spec 12 failed gateway result fails the order', format('select status from public.orders where id = %L', :'ord2'), 'failed');
 select public.t_err('Spec 12 failed order cannot be paid', format('select public.create_payment_record(%L, %L, %L)', :'ub', :'ord2', 'sslcommerz'), 'order_not_payable');
 
