@@ -1,0 +1,22 @@
+# Supabase CLI config (local development and function deployment settings).
+project_id = "admission-ventures"
+
+[functions.payment-ipn]
+verify_jwt = false   # called by the payment gateway; authenticity is proven by signature + server-to-server validation
+
+[functions.create-order]
+verify_jwt = true
+[functions.create-payment]
+verify_jwt = true
+[functions.get-protected-lesson]
+verify_jwt = true
+[functions.start-quiz]
+verify_jwt = true
+[functions.save-quiz-answer]
+verify_jwt = true
+[functions.submit-quiz]
+verify_jwt = true
+[functions.admin-manage-course]
+verify_jwt = true
+[functions.admin-grant-enrollment]
+verify_jwt = true

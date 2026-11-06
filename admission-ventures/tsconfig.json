@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "lib": ["ES2022", "DOM", "DOM.Iterable"], "module": "ESNext",
+    "moduleResolution": "bundler", "jsx": "react-jsx", "strict": true, "noEmit": true,
+    "skipLibCheck": true, "isolatedModules": true, "resolveJsonModule": true,
+    "allowImportingTsExtensions": true, "noUnusedLocals": true, "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true, "types": ["vite/client", "vitest/globals"],
+    "baseUrl": ".", "paths": { "@/*": ["src/*"] }
+  },
+  "include": ["src", "tests", "vite.config.ts", "supabase/functions/_shared/md5.ts", "supabase/functions/_shared/errors.ts", "supabase/functions/_shared/validation.ts", "supabase/functions/_shared/sslcommerz.ts"]
+}
