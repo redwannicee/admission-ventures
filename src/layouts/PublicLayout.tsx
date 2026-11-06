@@ -44,10 +44,11 @@ export function PublicLayout() {
       </header>
       <main id="main" className="flex-1"><Outlet /></main>
       <footer className="mt-16 bg-brand-900 text-brand-100">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-3">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
           <div><Logo light /><p className="mt-3 text-sm text-brand-200">{site.tagline}</p></div>
-          <div><p className="mb-2 text-sm font-semibold text-white">Explore</p><ul className="space-y-1 text-sm"><li><Link to="/courses">Courses</Link></li><li><Link to="/about">About us</Link></li><li><Link to="/contact">Contact</Link></li></ul></div>
-          <div><p className="mb-2 text-sm font-semibold text-white">Legal</p><ul className="space-y-1 text-sm"><li><Link to="/terms">Terms of use</Link></li><li><Link to="/privacy">Privacy policy</Link></li></ul></div>
+          <div><p className="mb-2 text-sm font-semibold text-white">Study</p><ul className="space-y-1 text-sm"><li><Link to="/courses">All courses</Link></li><li><Link to="/exams">Exams</Link></li><li><Link to="/dashboard">My learning</Link></li></ul></div>
+          <div><p className="mb-2 text-sm font-semibold text-white">Company</p><ul className="space-y-1 text-sm"><li><Link to="/about">About us</Link></li><li><Link to="/contact">Contact</Link></li></ul></div>
+          <div><p className="mb-2 text-sm font-semibold text-white">Policies</p><ul className="space-y-1 text-sm"><li><Link to="/terms">Terms of use</Link></li><li><Link to="/privacy">Privacy policy</Link></li></ul><p className="mt-4 text-xs text-brand-200">Payments are processed by a secure hosted gateway.</p></div>
         </div>
         <p className="border-t border-brand-800 py-4 text-center text-xs text-brand-200">© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
       </footer>

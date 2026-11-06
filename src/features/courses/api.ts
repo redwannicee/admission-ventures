@@ -41,3 +41,14 @@ export async function uploadThumbnail(courseId: string, file: File): Promise<str
   if (error) throw error;
   return path;
 }
+
+/** Real counts from public data only (RLS limits these to published content). */
+export async function getPublicStats(): Promise<{ courses: number; lessons: number; modules: number }> {
+  const count = async (table: string) => {
+    const r = await supabase.from(table).select("id", { count: "exact", head: true });
+    if (r.error) throw r.error;
+    return r.count ?? 0;
+  };
+  const [courses, lessons, modules] = await Promise.all([count("courses"), count("lessons"), count("course_modules")]);
+  return { courses, lessons, modules };
+}

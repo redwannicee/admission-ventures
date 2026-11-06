@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { useAsync } from "@/hooks/useAsync";
 import { AsyncView, EmptyState, PageHeader, Pagination } from "@/components/ui";
 import { CourseCard } from "@/features/courses/CourseCard";
@@ -8,7 +9,8 @@ import { listPublishedCourses } from "@/features/courses/api";
 const PAGE = 9;
 export default function CatalogPage() {
   const state = useAsync(listPublishedCourses, []);
-  const [q, setQ] = useState("");
+  const [sp] = useSearchParams();
+  const [q, setQ] = useState(sp.get("q") ?? "");
   const [page, setPage] = useState(0);
   const filtered = useMemo(() => (state.data ?? []).filter((c) => c.title.toLowerCase().includes(q.trim().toLowerCase())), [state.data, q]);
   return (
