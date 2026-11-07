@@ -1,4 +1,5 @@
 import { ApiError } from "@/lib/supabase/functions";
+import { tr } from "@/i18n";
 
 const MESSAGES: Record<string, string> = {
   not_authenticated: "Please sign in to continue.",
@@ -36,10 +37,10 @@ const MESSAGES: Record<string, string> = {
 
 export function errorMessage(e: unknown): string {
   const code = e instanceof ApiError ? e.code : e instanceof Error ? e.message : "";
-  if (MESSAGES[code]) return MESSAGES[code];
-  if (/duplicate key|already exists/i.test(code)) return "That value is already in use.";
-  if (/violates check constraint/i.test(code)) return "One of the values is not allowed. Please check the form.";
-  if (/violates foreign key/i.test(code)) return "This item is still in use elsewhere.";
-  if (/Failed to fetch|NetworkError|Load failed/i.test(code)) return MESSAGES.network_error;
-  return MESSAGES.internal_error;
+  if (MESSAGES[code]) return tr(MESSAGES[code]);
+  if (/duplicate key|already exists/i.test(code)) return tr("That value is already in use.");
+  if (/violates check constraint/i.test(code)) return tr("One of the values is not allowed. Please check the form.");
+  if (/violates foreign key/i.test(code)) return tr("This item is still in use elsewhere.");
+  if (/Failed to fetch|NetworkError|Load failed/i.test(code)) return tr(MESSAGES.network_error);
+  return tr(MESSAGES.internal_error);
 }

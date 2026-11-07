@@ -14,24 +14,24 @@ export const heroSlides = [
 export const videos = ["wHZVsRDDxVA", "esQzHk2JqjU", "7nmOEdN4uJ8"];
 
 export interface Member { name: string; role: string; edu?: string; photo: string; }
-const t = (file: string) => `${UP}/team_member/${file}`;
+const img = (file: string) => `${UP}/team_member/${file}`;
 export const team: Member[] = [
-  { name: "Nafis Erteja", role: "CEO & Founder", edu: "University of Chittagong", photo: t("1778433954_Nafis.jpeg") },
-  { name: "Shehab Rahaman", role: "Co-Founder & MD", edu: "University of Asia Pacific", photo: t("1778433319_Shehab.jpeg") },
-  { name: "Raisa Anjum Sondhi", role: "Co-Founder & Arts Mentor", edu: "University of Dhaka", photo: t("1778433443_Sondhi.jpeg") },
-  { name: "Mahfuz Chowdhury", role: "Commerce Segment Head", edu: "University of Chittagong", photo: t("1778433236_MAhfuj.jpeg") },
-  { name: "Archita Saha Prapti", role: "Mentor, Math & Physics", edu: "BUET", photo: t("1778433025_Prapty.jpeg") },
-  { name: "Rownok Sadab", role: "Mentor, Math & Physics", edu: "BUET", photo: t("1778432964_Rownak.jpeg") },
-  { name: "Masrur Junaet", role: "Mentor, Math & Physics", edu: "BUET", photo: t("1778432637_Junaet.jpeg") },
-  { name: "Rafia Tasnim", role: "Mentor, Math", edu: "HSTU", photo: t("1778433516_Rafia.jpeg") },
-  { name: "Anika Anwar", role: "Mentor, Physics & Chemistry", edu: "HSTU", photo: t("1778432681_Anika.jpeg") },
-  { name: "Risalat Hasan Raisha", role: "Mentor, Physics", edu: "University of Rajshahi", photo: t("1778432353_Risalat.jpeg") },
-  { name: "Sadika Rubia Rinki", role: "Mentor, Biology & Chemistry", edu: "PUST", photo: t("1778432853_Rinki.jpeg") },
-  { name: "Md. Shohaimim Islam", role: "Mentor, Biology & Chemistry", edu: "University of Chittagong", photo: t("1778432777_Personal.jpeg") },
-  { name: "Sifat E Sadia Prioti", role: "Mentor, Biology", edu: "Naogaon Medical College", photo: t("1778433870_Prioty.jpeg") },
-  { name: "Md. Sadman Sakib", role: "Mentor, Biology", edu: "Sylhet Agricultural University", photo: t("1778434021_Munnaf.jpeg") },
-  { name: "Mizanur Rahman", role: "Marketing Executive", edu: "University of Rajshahi", photo: t("1778432416_Boost.jpeg") },
-  { name: "Sifat", role: "Graphic Designer (Social Media Branding)", photo: t("1778433737_Poster.jpeg") },
+  { name: "Nafis Erteja", role: "CEO & Founder", edu: "University of Chittagong", photo: img("1778433954_Nafis.jpeg") },
+  { name: "Shehab Rahaman", role: "Co-Founder & MD", edu: "University of Asia Pacific", photo: img("1778433319_Shehab.jpeg") },
+  { name: "Raisa Anjum Sondhi", role: "Co-Founder & Arts Mentor", edu: "University of Dhaka", photo: img("1778433443_Sondhi.jpeg") },
+  { name: "Mahfuz Chowdhury", role: "Commerce Segment Head", edu: "University of Chittagong", photo: img("1778433236_MAhfuj.jpeg") },
+  { name: "Archita Saha Prapti", role: "Mentor, Math & Physics", edu: "BUET", photo: img("1778433025_Prapty.jpeg") },
+  { name: "Rownok Sadab", role: "Mentor, Math & Physics", edu: "BUET", photo: img("1778432964_Rownak.jpeg") },
+  { name: "Masrur Junaet", role: "Mentor, Math & Physics", edu: "BUET", photo: img("1778432637_Junaet.jpeg") },
+  { name: "Rafia Tasnim", role: "Mentor, Math", edu: "HSTU", photo: img("1778433516_Rafia.jpeg") },
+  { name: "Anika Anwar", role: "Mentor, Physics & Chemistry", edu: "HSTU", photo: img("1778432681_Anika.jpeg") },
+  { name: "Risalat Hasan Raisha", role: "Mentor, Physics", edu: "University of Rajshahi", photo: img("1778432353_Risalat.jpeg") },
+  { name: "Sadika Rubia Rinki", role: "Mentor, Biology & Chemistry", edu: "PUST", photo: img("1778432853_Rinki.jpeg") },
+  { name: "Md. Shohaimim Islam", role: "Mentor, Biology & Chemistry", edu: "University of Chittagong", photo: img("1778432777_Personal.jpeg") },
+  { name: "Sifat E Sadia Prioti", role: "Mentor, Biology", edu: "Naogaon Medical College", photo: img("1778433870_Prioty.jpeg") },
+  { name: "Md. Sadman Sakib", role: "Mentor, Biology", edu: "Sylhet Agricultural University", photo: img("1778434021_Munnaf.jpeg") },
+  { name: "Mizanur Rahman", role: "Marketing Executive", edu: "University of Rajshahi", photo: img("1778432416_Boost.jpeg") },
+  { name: "Sifat", role: "Graphic Designer (Social Media Branding)", photo: img("1778433737_Poster.jpeg") },
 ];
 
 export const faqs: { q: string; a: string }[] = [

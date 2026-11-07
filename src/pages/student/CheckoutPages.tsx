@@ -11,8 +11,10 @@ import { checkoutKey, clearCheckoutKey } from "@/utils/idempotency";
 import { errorMessage } from "@/utils/messages";
 import { formatBDT } from "@/utils/format";
 import type { Order } from "@/types/db";
+import { useT } from "@/i18n";
 
 export function CheckoutPage() {
+  const { t } = useT();
   const { courseId = "" } = useParams();
   const nav = useNavigate();
   const [busy, setBusy] = useState(false);
@@ -40,18 +42,18 @@ export function CheckoutPage() {
   }
   return (
     <div className="mx-auto max-w-xl">
-      <PageHeader title="Checkout" />
-      <AsyncView state={state} isEmpty={(d) => d === null} empty={<EmptyState title="This course is not available" action={<Link className="btn-primary btn-sm" to="/courses">Browse courses</Link>} />}>
+      <PageHeader title={t("Checkout")} />
+      <AsyncView state={state} isEmpty={(d) => d === null} empty={<EmptyState title={t("This course is not available")} action={<Link className="btn-primary btn-sm" to="/courses">{t("Browse courses")}</Link>} />}>
         {(d) => {
           if (!d) return null;
           const { course, enrolled } = d;
-          if (enrolled) return <Alert kind="info">You are already enrolled in this course. <Link className="font-semibold underline" to={`/learn/${course.slug}`}>Start learning</Link></Alert>;
+          if (enrolled) return <Alert kind="info">{t("You are already enrolled in this course.")} <Link className="font-semibold underline" to={`/learn/${course.slug}`}>{t("Start learning")}</Link></Alert>;
           return (
             <div className="card space-y-4 p-5">
-              <div className="flex items-start justify-between gap-4"><div><p className="text-xs uppercase tracking-wide text-ink-mute">Course</p><h2 className="text-xl">{course.title}</h2></div><p className="font-display text-2xl text-brand-800">{formatBDT(course.price_amount)}</p></div>
+              <div className="flex items-start justify-between gap-4"><div><p className="text-xs uppercase tracking-wide text-ink-mute">{t("Course")}</p><h2 className="text-xl">{course.title}</h2></div><p className="font-display text-2xl text-brand-800">{formatBDT(course.price_amount)}</p></div>
               {err && <Alert>{err}</Alert>}
-              <Button loading={busy} className="btn-accent w-full" onClick={pay}>{course.price_amount === 0 ? "Enrol for free" : `Pay ${formatBDT(course.price_amount)} securely`}</Button>
-              {course.price_amount > 0 && <p className="text-xs text-ink-mute">You will be redirected to our payment gateway. Access opens after the payment is verified; the price is confirmed on the server.</p>}
+              <Button loading={busy} className="btn-accent w-full" onClick={pay}>{course.price_amount === 0 ? t("Enrol for free") : `Pay ${formatBDT(course.price_amount)} securely`}</Button>
+              {course.price_amount > 0 && <p className="text-xs text-ink-mute">{t("You will be redirected to our payment gateway. Access opens after the payment is verified; the price is confirmed on the server.")}</p>}
             </div>);
         }}
       </AsyncView>
@@ -61,6 +63,7 @@ export function CheckoutPage() {
 
 const POLL_MS = 3000, POLL_MAX = 20;
 export function PaymentResultPage() {
+  const { t } = useT();
   const [sp] = useSearchParams();
   const ref = sp.get("order") ?? "";
   const hint = sp.get("status") ?? "";
@@ -85,17 +88,17 @@ export function PaymentResultPage() {
     return () => { stop = true; };
   }, [ref]);
 
-  if (!ref) return <EmptyState title="No order specified" action={<Link className="btn-primary btn-sm" to="/orders">My orders</Link>} />;
+  if (!ref) return <EmptyState title={t("No order specified")} action={<Link className="btn-primary btn-sm" to="/orders">{t("My orders")}</Link>} />;
   const status = order?.status;
   const slugTo = "/dashboard";
   return (
     <div className="mx-auto max-w-lg">
       <div className="card space-y-4 p-6 text-center">
         {loadErr ? <Alert>{errorMessage(loadErr)}</Alert> :
-         status === "paid" ? (<><CheckCircle2 className="mx-auto h-12 w-12 text-brand-600" aria-hidden /><h1 className="text-2xl">Payment confirmed</h1><p className="text-ink-soft">You are enrolled. Order <span className="font-mono">{ref}</span>.</p><Link to={slugTo} className="btn-primary">Go to my courses</Link></>) :
-         status && ["failed", "cancelled", "expired"].includes(status) ? (<><XCircle className="mx-auto h-12 w-12 text-red-700" aria-hidden /><h1 className="text-2xl">Payment {status}</h1><p className="text-ink-soft">No money was taken for this attempt{hint === "cancel" ? " because you cancelled" : ""}. You can try again from your orders.</p><Link to="/orders" className="btn-primary">My orders</Link></>) :
-         tries >= POLL_MAX ? (<><Clock className="mx-auto h-12 w-12 text-amber-deep" aria-hidden /><h1 className="text-2xl">Still waiting for confirmation</h1><p className="text-ink-soft">Your bank or wallet has not confirmed the payment yet. If money was deducted, access opens automatically once it is confirmed. Quote order <span className="font-mono">{ref}</span> if you contact support.</p><Link to="/orders" className="btn-primary">My orders</Link></>) :
-         (<><Spinner label="Confirming your payment" /><p className="text-sm text-ink-mute">Please do not close this page. Order <span className="font-mono">{ref}</span>.</p></>)}
+         status === "paid" ? (<><CheckCircle2 className="mx-auto h-12 w-12 text-brand-600" aria-hidden /><h1 className="text-2xl">{t("Payment confirmed")}</h1><p className="text-ink-soft">{t("You are enrolled. Order {ref}.", { ref })}</p><Link to={slugTo} className="btn-primary">{t("Go to my courses")}</Link></>) :
+         status && ["failed", "cancelled", "expired"].includes(status) ? (<><XCircle className="mx-auto h-12 w-12 text-red-700" aria-hidden /><h1 className="text-2xl">{t("Payment {status}", { status: t(status) })}</h1><p className="text-ink-soft">{hint === "cancel" ? t("No money was taken because you cancelled. You can try again from your orders.") : t("No money was taken for this attempt. You can try again from your orders.")}</p><Link to="/orders" className="btn-primary">{t("My orders")}</Link></>) :
+         tries >= POLL_MAX ? (<><Clock className="mx-auto h-12 w-12 text-amber-deep" aria-hidden /><h1 className="text-2xl">{t("Still waiting for confirmation")}</h1><p className="text-ink-soft">{t("Your bank or wallet has not confirmed the payment yet. If money was deducted, access opens automatically once it is confirmed. Quote order {ref} if you contact support.", { ref })}</p><Link to="/orders" className="btn-primary">{t("My orders")}</Link></>) :
+         (<><Spinner label={t("Confirming your payment")} /><p className="text-sm text-ink-mute">{t("Please do not close this page. Order {ref}.", { ref })}</p></>)}
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
-export const formatBDT = (n: number): string => (n === 0 ? "Free" : `৳${n.toLocaleString("en-US")}`);
+import { getLang, tr } from "@/i18n";
+export const formatBDT = (n: number): string => (n === 0 ? tr("Free") : `৳${n.toLocaleString("en-US")}`);
 
 export function formatDate(iso: string | null | undefined, withTime = false): string {
   if (!iso) return "—";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "—";
-  return d.toLocaleString("en-GB", withTime
+  return d.toLocaleString(getLang() === "bn" ? "bn-BD" : "en-GB", withTime
     ? { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }
     : { day: "2-digit", month: "short", year: "numeric" });
 }

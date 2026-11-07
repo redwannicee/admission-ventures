@@ -11,8 +11,10 @@ import { RequireAdmin, RequireAuth } from "./guards";
 import HomePage from "@/pages/public/HomePage";
 import CatalogPage from "@/pages/public/CatalogPage";
 import CourseDetailPage from "@/pages/public/CourseDetailPage";
-import { AboutPage, ContactPage, NotFoundPage, PrivacyPage, TeamPage, TermsPage } from "@/pages/public/StaticPages";
+import AboutPage from "@/pages/public/AboutPage";
+import { ContactPage, NotFoundPage, PrivacyPage, TeamPage, TermsPage } from "@/pages/public/StaticPages";
 import { ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage } from "@/pages/auth/AuthPages";
+import { useT } from "@/i18n";
 
 // Admin and exam screens are split out so students never download admin code.
 const MfaPage = lazy(() => import("@/pages/auth/MfaPage"));
@@ -56,15 +58,17 @@ const adminNav: NavItem[] = [
 ];
 
 function SetupNotice() {
+  const { t } = useT();
   return (
     <div className="mx-auto max-w-xl px-4 py-16">
-      <h1 className="text-2xl">Setup needed</h1>
-      <p className="mt-2 text-ink-soft">This build is missing <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code>. Add them in the Cloudflare Pages project settings (or a local <code>.env</code> file) and rebuild.</p>
+      <h1 className="text-2xl">{t("Setup needed")}</h1>
+      <p className="mt-2 text-ink-soft">{t("This build is missing")} <code>VITE_SUPABASE_URL</code> {t("and")} <code>VITE_SUPABASE_ANON_KEY</code>{t(". Add them in the Cloudflare Pages project settings (or a local")} <code>{t(".env")}</code> {t("file) and rebuild.")}</p>
     </div>
   );
 }
 
 export default function App() {
+  const { t } = useT();
   if (!supabaseConfigured) return <SetupNotice />;
   return (
     <BrowserRouter>
@@ -88,7 +92,7 @@ export default function App() {
                 <Route path="auth/mfa" element={<RequireAuth><MfaPage /></RequireAuth>} />
                 <Route path="*" element={<NotFoundPage />} />
               </Route>
-              <Route element={<RequireAuth><DashboardLayout items={studentNav} area="Student" /></RequireAuth>}>
+              <Route element={<RequireAuth><DashboardLayout items={studentNav} area={t("Student")} /></RequireAuth>}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="profile" element={<Profile />} />
@@ -100,7 +104,7 @@ export default function App() {
                 <Route path="exams/:quizId/take" element={<QuizTake />} />
                 <Route path="exams/result/:attemptId" element={<QuizResult />} />
               </Route>
-              <Route path="admin" element={<RequireAdmin><DashboardLayout items={adminNav} area="Admin" /></RequireAdmin>}>
+              <Route path="admin" element={<RequireAdmin><DashboardLayout items={adminNav} area={t("Admin")} /></RequireAdmin>}>
                 <Route index element={<AdminReports />} />
                 <Route path="courses" element={<AdminCourses />} />
                 <Route path="courses/:courseId/content" element={<AdminCourseContent />} />

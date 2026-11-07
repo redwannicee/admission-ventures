@@ -1,3 +1,4 @@
+import { tr } from "@/i18n";
 import { z } from "zod";
 
 export const bdPhone = z.string().trim().regex(/^(?:\+?88)?01[3-9]\d{8}$/, "Enter a valid Bangladeshi mobile number, e.g. 01712345678");
@@ -34,4 +35,4 @@ export const grantSchema = z.object({
   reason: z.string().trim().min(3, "Give a reason").max(500),
   expires_at: z.string().optional().or(z.literal("")),
 });
-export const firstIssue = (e: z.ZodError): string => e.issues[0]?.message ?? "Please check the form";
+export const firstIssue = (e: z.ZodError): string => tr(e.issues[0]?.message ?? "Please check the form");

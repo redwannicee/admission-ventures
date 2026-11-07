@@ -1,9 +1,11 @@
 import { type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes, useEffect, useId, useRef } from "react";
 import { AlertTriangle, Inbox, Loader2, X } from "lucide-react";
 import { errorMessage } from "@/utils/messages";
+import { useT } from "@/i18n";
 
-export function Spinner({ label = "Loading" }: { label?: string }) {
-  return <span role="status" className="inline-flex items-center gap-2 text-sm text-ink-mute"><Loader2 className="h-4 w-4 animate-spin" aria-hidden />{label}…</span>;
+export function Spinner({ label }: { label?: string }) {
+  const { t } = useT();
+  return <span role="status" className="inline-flex items-center gap-2 text-sm text-ink-mute"><Loader2 className="h-4 w-4 animate-spin" aria-hidden />{t(label ?? "Loading")}…</span>;
 }
 export const PageLoader = () => <div className="flex min-h-[40vh] items-center justify-center"><Spinner /></div>;
 
@@ -18,11 +20,12 @@ export function EmptyState({ title, hint, action }: { title: string; hint?: stri
   );
 }
 export function ErrorState({ error, onRetry }: { error: unknown; onRetry?: () => void }) {
+  const { t } = useT();
   return (
     <div role="alert" className="card flex flex-col items-center gap-3 border-red-200 px-6 py-10 text-center">
       <AlertTriangle className="h-8 w-8 text-red-700" aria-hidden />
       <p className="text-sm text-ink-soft">{errorMessage(error)}</p>
-      {onRetry && <button className="btn-ghost btn-sm" onClick={onRetry}>Try again</button>}
+      {onRetry && <button className="btn-ghost btn-sm" onClick={onRetry}>{t("Try again")}</button>}
     </div>
   );
 }
@@ -75,20 +78,22 @@ export const statusTone = (s: string) =>
   ({ paid: "green", success: "green", active: "green", published: "green", submitted: "green", pending: "amber", initiated: "amber", in_progress: "amber", draft: "gray", failed: "red", cancelled: "gray", expired: "gray", refunded: "red", rejected: "red" } as Record<string, string>)[s] ?? "gray";
 
 export function Pagination({ page, pageSize, total, onPage }: { page: number; pageSize: number; total: number; onPage: (p: number) => void }) {
+  const { t } = useT();
   const pages = Math.max(1, Math.ceil(total / pageSize));
   if (total <= pageSize) return null;
   return (
-    <nav aria-label="Pagination" className="mt-4 flex items-center justify-between gap-2 text-sm">
-      <span className="text-ink-mute">Page {page + 1} of {pages} · {total} items</span>
+    <nav aria-label={t("Pagination")} className="mt-4 flex items-center justify-between gap-2 text-sm">
+      <span className="text-ink-mute">{t("Page {p} of {n} · {total} items", { p: page + 1, n: pages, total })}</span>
       <div className="flex gap-2">
-        <button className="btn-ghost btn-sm" disabled={page === 0} onClick={() => onPage(page - 1)}>Previous</button>
-        <button className="btn-ghost btn-sm" disabled={page + 1 >= pages} onClick={() => onPage(page + 1)}>Next</button>
+        <button className="btn-ghost btn-sm" disabled={page === 0} onClick={() => onPage(page - 1)}>{t("Previous")}</button>
+        <button className="btn-ghost btn-sm" disabled={page + 1 >= pages} onClick={() => onPage(page + 1)}>{t("Next")}</button>
       </div>
     </nav>
   );
 }
 
 export function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+  const { t } = useT();
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const prev = document.activeElement as HTMLElement | null;
@@ -102,7 +107,7 @@ export function Modal({ title, onClose, children }: { title: string; onClose: ()
       <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={title} className="card max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-b-none p-5 sm:rounded-2xl">
         <div className="mb-4 flex items-start justify-between gap-3">
           <h2 className="text-xl">{title}</h2>
-          <button className="btn-ghost btn-sm" onClick={onClose} aria-label="Close"><X className="h-4 w-4" /></button>
+          <button className="btn-ghost btn-sm" onClick={onClose} aria-label={t("Close")}><X className="h-4 w-4" /></button>
         </div>
         {children}
       </div>

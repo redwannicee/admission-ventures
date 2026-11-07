@@ -46,3 +46,9 @@ Admin guide `docs/ADMIN_GUIDE.md` · Student guide `docs/STUDENT_GUIDE.md` · QA
 
 ## Not in the MVP (spec "later phase")
 Coupons, certificates (table exists, no UI), leaderboards, scheduled exams, bundles, live classes, instructor portal.
+
+## Language (Bangla / English)
+
+The site opens in Bangla; the **English / বাংলা** button in the header switches language and remembers the choice (`localStorage` key `av_lang`).
+English text is the translation key: add a Bangla line to `src/i18n/bn.ts`. Missing keys fall back to English. Bangla-first copy (the About page) has its English in `src/i18n/en.ts`.
+Course titles, descriptions and announcements come from the database and stay in the language they were typed in.
